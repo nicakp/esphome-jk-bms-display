@@ -63,7 +63,7 @@ CONFIG_SCHEMA = JK_RS485_BMS_COMPONENT_SCHEMA.extend(
         ).extend(cv.COMPONENT_SCHEMA),
         cv.Optional(CONF_CHARGING): switch.switch_schema(
             {
-                cv.GenerateID(CONF_ID):: cv.declare_id(JkRS485BmsSwitch),
+                cv.GenerateID(CONF_ID): cv.declare_id(JkRS485BmsSwitch),
                 cv.Optional(CONF_ICON, default=ICON_CHARGING): cv.icon,
             }
         ).extend(cv.COMPONENT_SCHEMA),
