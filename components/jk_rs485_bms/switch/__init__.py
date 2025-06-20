@@ -55,7 +55,7 @@ JkRS485BmsSwitch = jk_rs485_bms_ns.class_("JkRS485BmsSwitch", switch.Switch, cg.
 
 CONFIG_SCHEMA = JK_RS485_BMS_COMPONENT_SCHEMA.extend(
     {
-        cv.Optional(CONF_PRECHARGING): switch.SWITCH_SCHEMA.extend(
+        cv.Optional(CONF_PRECHARGING): switch.switch_schema(
             {
                 cv.GenerateID(): cv.declare_id(JkRS485BmsSwitch),
                 cv.Optional(CONF_ICON, default=ICON_CHARGING): cv.icon,
