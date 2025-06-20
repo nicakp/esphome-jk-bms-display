@@ -15,11 +15,23 @@ CONF_RS485_ADDRESS = "rs485_address"
 jk_rs485_bms_ns = cg.esphome_ns.namespace("jk_rs485_bms")
 JkRS485Bms = jk_rs485_bms_ns.class_("JkRS485Bms", cg.PollingComponent, jk_rs485_sniffer.JkRS485SnifferDevice)
 
-CONFIG_SCHEMA = (
+# CONFIG_SCHEMA = (
+#     cv.Schema(
+#         {
+#             cv.GenerateID(): cv.declare_id(JkRS485Bms),
+#             cv.Required(CONF_RS485_ADDRESS): cv.int_,
+#         }
+#     )
+#     .extend(cv.polling_component_schema("5s"))
+#     .extend(jk_rs485_sniffer.jk_rs485_sniffer_device_schema())
+# )
+CONFIG_SCHEMA = cv.ensure_list(
     cv.Schema(
         {
             cv.GenerateID(): cv.declare_id(JkRS485Bms),
             cv.Required(CONF_RS485_ADDRESS): cv.int_,
+            cv.Required(CONF_JK_RS485_SNIFFER_ID): cv.use_id(jk_rs485_sniffer.JkRS485Sniffer),
+            cv.Optional("update_interval", default="5s"): cv.positive_time_period_seconds,
         }
     )
     .extend(cv.polling_component_schema("5s"))
