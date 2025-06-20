@@ -44,11 +44,19 @@ JK_RS485_BMS_COMPONENT_SCHEMA = cv.Schema(
     }
 )
 
+# async def to_code(config):
+#     var = cg.new_Pvariable(config[CONF_ID])                               #definicion var: BMS (conf_id)
+#     await cg.register_component(var, config)                              #registro de var y su config
+#     await jk_rs485_sniffer.register_jk_rs485_bms_device(var, config)      #registro de SNIFFER_DEVICE
+#     cg.add(var.set_address(config[CONF_RS485_ADDRESS]))                   #JK_RS485_BMS --> address
+#     hub = await cg.get_variable(config[CONF_JK_RS485_SNIFFER_ID])
+#     #cg.add(getattr(hub, f"set_bms")(var))
+#     cg.add(var.set_sniffer_parent(hub))    
 async def to_code(config):
-    var = cg.new_Pvariable(config[CONF_ID])                               #definicion var: BMS (conf_id)
-    await cg.register_component(var, config)                              #registro de var y su config
-    await jk_rs485_sniffer.register_jk_rs485_bms_device(var, config)      #registro de SNIFFER_DEVICE
-    cg.add(var.set_address(config[CONF_RS485_ADDRESS]))                   #JK_RS485_BMS --> address
-    hub = await cg.get_variable(config[CONF_JK_RS485_SNIFFER_ID])
-    #cg.add(getattr(hub, f"set_bms")(var))
-    cg.add(var.set_sniffer_parent(hub))    
+    for conf in config:
+        var = cg.new_Pvariable(conf[CONF_ID])
+        await cg.register_component(var, conf)
+        await jk_rs485_sniffer.register_jk_rs485_bms_device(var, conf)
+        cg.add(var.set_address(conf[CONF_RS485_ADDRESS]))
+        hub = await cg.get_variable(conf[CONF_JK_RS485_SNIFFER_ID])
+        cg.add(var.set_sniffer_parent(hub))
